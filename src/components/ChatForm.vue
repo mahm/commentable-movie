@@ -3,19 +3,21 @@
     <div class="form-box">
       <div class="textarea-wrapper">
         <input
+          v-if="playing"
           v-model="body"
           type="text"
           class="form-input"
           placeholder="コメント..."
           @keyup.enter="handleSubmit"
         >
+        <div v-else>再生前に投稿できません</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import uuid from "uuidv4";
 
 export default {
@@ -32,10 +34,14 @@ export default {
     postMessage() {
       this.addMessage({
         id: uuid(),
+        currentTime: this.currentTime,
         body: this.body
       });
       this.body = "";
     }
+  },
+  computed: {
+    ...mapGetters("player", ["playing", "currentTime"])
   }
 };
 </script>

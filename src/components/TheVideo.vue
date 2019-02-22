@@ -1,17 +1,17 @@
 <template>
   <div class="video-wrapper">
-    <Player src="/movie/clouds.mp4" type="video/mp4"/>
+    <ThePlayer/>
     <TheChat/>
   </div>
 </template>
 
 <script>
-import Player from "./Player";
+import ThePlayer from "./ThePlayer";
 import TheChat from "./TheChat";
 
 export default {
   components: {
-    Player,
+    ThePlayer,
     TheChat
   }
 };

@@ -1,13 +1,14 @@
 <template>
   <div class="wrapper-message">
-    <p>{{ body }}</p>
+    <p>{{ currentTime }}: {{ body }}</p>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    body: String
+    body: String,
+    currentTime: Number
   }
 };
 </script>
@@ -19,4 +20,5 @@ export default {
 
   p
     text-align: left
+    margin: 5px 0 5px 0
 </style>
