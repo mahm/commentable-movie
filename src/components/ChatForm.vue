@@ -9,6 +9,7 @@
           class="form-input"
           placeholder="コメント..."
           @keyup.enter="handleSubmit"
+          @keypress="setCanSubmit"
         >
         <div v-else>再生前に投稿できません</div>
       </div>
@@ -23,13 +24,22 @@ import uuid from "uuidv4";
 export default {
   data() {
     return {
-      body: ""
+      body: "",
+      canSubmit: false
     };
   },
   methods: {
     ...mapActions("chat", ["addMessage"]),
+    setCanSubmit() {
+      this.canSubmit = true;
+    },
     handleSubmit() {
+      if (!this.canSubmit) {
+        return;
+      }
       this.postMessage();
+      this.body = "";
+      this.canSubmit = false;
     },
     postMessage() {
       this.addMessage({
@@ -37,7 +47,6 @@ export default {
         currentTime: this.currentTime,
         body: this.body
       });
-      this.body = "";
     }
   },
   computed: {
