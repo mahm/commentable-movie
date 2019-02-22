@@ -2,11 +2,44 @@
   <div class="form-wrapper">
     <div class="form-box">
       <div class="textarea-wrapper">
-        <input type="text" class="form-input" placeholder="コメント...">
+        <input
+          v-model="body"
+          type="text"
+          class="form-input"
+          placeholder="コメント..."
+          @keyup.enter="handleSubmit"
+        >
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import { mapActions } from "vuex";
+import uuid from "uuidv4";
+
+export default {
+  data() {
+    return {
+      body: ""
+    };
+  },
+  methods: {
+    ...mapActions("chat", ["addMessage"]),
+    handleSubmit() {
+      this.postMessage();
+    },
+    postMessage() {
+      this.addMessage({
+        id: uuid(),
+        body: this.body
+      });
+      this.body = "";
+    }
+  }
+};
+</script>
+
 
 <style scoped lang="sass">
 .form-wrapper

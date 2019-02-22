@@ -10,9 +10,11 @@
   "dependencies": {
     "node-sass": "^4.11.0",
     "sass-loader": "^7.1.0",
+    "uuidv4": "^3.0.1",
     "video.js": "^7.4.1",
     "vue": "^2.6.6",
-    "vue-video-player": "^5.0.2"
+    "vue-video-player": "^5.0.2",
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.1",
