@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper-message">
-    <p>{{ currentTime }}: {{ body }}</p>
+    <p>{{ formatedTime }} {{ body }}</p>
   </div>
 </template>
 
@@ -9,8 +9,24 @@ export default {
   props: {
     body: String,
     currentTime: Number
+  },
+  computed: {
+    formatedTime() {
+      const time = parseInt(this.currentTime);
+      const minutes = Math.floor(time / 60);
+      const seconds = time % 60;
+      return `${padZero(minutes)}:${padZero(seconds)}`;
+    }
   }
 };
+
+function padZero(num) {
+  if (num < 10) {
+    return `0${num}`;
+  } else {
+    return `${num}`;
+  }
+}
 </script>
 
 <style lang="sass" scoped>

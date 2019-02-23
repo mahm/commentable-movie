@@ -1,31 +1,44 @@
+import firebase, { app } from '../../config/firebase';
+import { firebaseAction } from 'vuexfire';
+import _ from 'lodash';
+const db = app.firestore();
+const movieRef = db.collection('movies').doc('xAeLdnXWdi57PjLWi74A');
+const messagesRef = movieRef.collection('messages');
+
 const store = {
   namespaced: true,
   state: {
     messages: [],
-    scoredMessages: {}
+    movie: {}
   },
   getters: {
     messages: ({ messages }) => {
-      return messages || [];
+      return _.sortBy(messages, ['createdAt']) || [];
     },
-    scoredMessages: ({ scoredMessages }) => {
-      return scoredMessages;
-    }
-  },
-  mutations: {
-    addMessage(state, obj) {
-      state.messages.push(obj);
-      const scoredTime = Math.ceil(obj.currentTime);
-      if (!state.scoredMessages[scoredTime]) {
-        state.scoredMessages[scoredTime] = [];
-      }
-      state.scoredMessages[scoredTime].push(obj);
+    scoredMessages: ({ movie }) => {
+      return movie.scoredMessages || {};
     }
   },
   actions: {
-    addMessage({ commit }, obj) {
-      commit('addMessage', obj);
-    }
+    addMessage({ state }, obj) {
+      const payload = {
+        ...obj,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      messagesRef.add(payload);
+      const scoredTime = Math.ceil(obj.currentTime);
+      let updatedScoredMessages = state.movie.scoredMessages || {};
+      if (!updatedScoredMessages[scoredTime]) {
+        updatedScoredMessages[scoredTime] = [];
+      }
+      updatedScoredMessages[scoredTime].push(obj);
+      movieRef.update({ scoredMessages: updatedScoredMessages });
+    },
+    init: firebaseAction(({ bindFirebaseRef }) => {
+      console.log('init');
+      bindFirebaseRef('messages', messagesRef);
+      bindFirebaseRef('movie', movieRef);
+    })
   }
 };
 export default store;

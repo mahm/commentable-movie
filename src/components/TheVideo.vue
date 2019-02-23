@@ -13,6 +13,9 @@ export default {
   components: {
     ThePlayer,
     TheChat
+  },
+  created() {
+    this.$store.dispatch("chat/init");
   }
 };
 </script>
