@@ -13,7 +13,7 @@ const store = {
   },
   getters: {
     messages: ({ messages }) => {
-      return _.sortBy(messages, ['createdAt']) || [];
+      return _.sortBy(messages, ['currentTime']) || [];
     },
     scoredMessages: ({ movie }) => {
       return movie.scoredMessages || {};
